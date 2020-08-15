@@ -45,7 +45,7 @@ public class Base {
             driver = new AndroidDriver<>(new URL("http://0.0.0.0:4723/wd/hub"), capabilities);
             driver.manage().timeouts().implicitlyWait(4000, TimeUnit.SECONDS);
         } catch (Exception e) {
-
+            e.getMessage();
         }
 
         return driver;

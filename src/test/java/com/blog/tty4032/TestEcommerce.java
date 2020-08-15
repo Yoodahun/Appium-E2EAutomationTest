@@ -10,6 +10,8 @@ import io.appium.java_client.touch.LongPressOptions;
 import io.appium.java_client.touch.offset.ElementOption;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.time.Duration;
 import java.util.List;
@@ -17,7 +19,9 @@ import java.util.Set;
 
 public class TestEcommerce extends Base {
 
-        public static void main(String[] args) throws InterruptedException {
+
+    @Test
+    public void totalValidation() throws InterruptedException {
             AndroidDriver<AndroidElement> driver = initializeCapabilities("GeneralStoreApp");
 
             Thread.sleep(5000);
@@ -68,8 +72,43 @@ public class TestEcommerce extends Base {
             driver.quit();
             System.out.println("4 --------------------------");
 
+        //4. Validate the total Amount displayed in the checkout page matches with sum of product amounts selected for Shopping
+        driver = initializeCapabilities("GeneralStoreApp");
+        Thread.sleep(5000);
+        login(driver);
 
+        elements = driver.findElementsByXPath("//*[@text='ADD TO CART']");
+        for (AndroidElement element: elements
+        ) {
+            element.click();
         }
+        driver.findElementById("com.androidsample.generalstore:id/appbar_btn_cart").click();
+
+        Thread.sleep(1000);
+        double priceSum = 0.0;
+
+        List<AndroidElement> totalPrices = driver.findElementsById("com.androidsample.generalstore:id/productPrice");
+        for (AndroidElement priceElement: totalPrices
+        ) {
+            priceSum += Double.parseDouble(priceElement.getText().replace("$",""));
+        }
+
+        String expectedSum = driver.findElementById("com.androidsample.generalstore:id/totalAmountLbl").getText().split(" ")[1];
+
+        System.out.println(expectedSum);
+        System.out.println(priceSum);
+
+        Assert.assertEquals(
+                priceSum, Double.parseDouble(expectedSum)
+        );
+
+
+
+        System.out.println("5 --------------------------");
+
+
+
+    }
 
         public static void login(AndroidDriver<AndroidElement> driver) throws InterruptedException {
 
