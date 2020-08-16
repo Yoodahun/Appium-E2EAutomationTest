@@ -1,21 +1,15 @@
 package com.blog.tty4032;
 
 import com.blog.tty4032.base.Base;
-import io.appium.java_client.TouchAction;
+import com.blog.tty4032.ecommerce.CheckoutPage;
+import com.blog.tty4032.ecommerce.FormPage;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
-import io.appium.java_client.android.nativekey.AndroidKey;
-import io.appium.java_client.android.nativekey.KeyEvent;
-import io.appium.java_client.touch.LongPressOptions;
-import io.appium.java_client.touch.offset.ElementOption;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 import java.util.List;
-import java.util.Set;
 
 public class TestEcommerce extends Base {
 
@@ -87,13 +81,15 @@ public class TestEcommerce extends Base {
         Thread.sleep(1000);
         double priceSum = 0.0;
 
-        List<AndroidElement> totalPrices = driver.findElementsById("com.androidsample.generalstore:id/productPrice");
-        for (AndroidElement priceElement: totalPrices
+//        List<AndroidElement> totalPrices = driver.findElementsById("com.androidsample.generalstore:id/productPrice");
+        CheckoutPage checkoutPage = new CheckoutPage(driver);
+
+        for (WebElement priceElement: checkoutPage.productPrice
         ) {
             priceSum += Double.parseDouble(priceElement.getText().replace("$",""));
         }
 
-        String expectedSum = driver.findElementById("com.androidsample.generalstore:id/totalAmountLbl").getText().split(" ")[1];
+        String expectedSum = checkoutPage.totalAmount.getText().split(" ")[1];
 
         System.out.println(expectedSum);
         System.out.println(priceSum);
@@ -112,17 +108,18 @@ public class TestEcommerce extends Base {
 
         public static void login(AndroidDriver<AndroidElement> driver) throws InterruptedException {
 
-            driver.findElementById("com.androidsample.generalstore:id/btnLetsShop").click();
-            System.out.println(driver.findElementByXPath("//android.widget.Toast").getText());
-            System.out.println(driver.findElementByXPath("//android.widget.Toast[1]").getAttribute("name"));
+            FormPage formPage = new FormPage(driver);
 
-            driver.findElementById("com.androidsample.generalstore:id/nameField").sendKeys("hello");
+            formPage.loginButton.click();
+            System.out.println(formPage.toast.getText());
+
+            formPage.getNamefield().sendKeys("Hello");
             driver.hideKeyboard();
-            driver.findElementById("com.androidsample.generalstore:id/radioFemale").click();
-            driver.findElementById("android:id/text1").click();
+            formPage.radioFemale.click();
+            formPage.countrySelect.click();
             driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"Argentina\"));").click();
 
-            driver.findElementById("com.androidsample.generalstore:id/btnLetsShop").click();
+            formPage.loginButton.click();
         }
 
 
