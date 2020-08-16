@@ -6,6 +6,7 @@
           name="TestNG1">
         <classes> <!-- module -->
             <class name="com.blog.tty4032.TestEcommerce"/>
+            <class name="com.blog.tty4032.TestAPIDemos"/>
         </classes>
     </test>
 </suite>

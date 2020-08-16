@@ -3,10 +3,13 @@ package com.blog.tty4032;
 import com.blog.tty4032.base.Base;
 import com.blog.tty4032.ecommerce.CheckoutPage;
 import com.blog.tty4032.ecommerce.FormPage;
+import com.blog.tty4032.util.Utilities;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -16,6 +19,11 @@ public class TestEcommerce extends Base {
 
     @Test
     public void totalValidation() throws InterruptedException {
+
+            appiumDriverLocalService = startServer();
+
+            Thread.sleep(5000);
+
             AndroidDriver<AndroidElement> driver = initializeCapabilities("GeneralStoreApp");
 
             Thread.sleep(5000);
@@ -84,7 +92,7 @@ public class TestEcommerce extends Base {
 //        List<AndroidElement> totalPrices = driver.findElementsById("com.androidsample.generalstore:id/productPrice");
         CheckoutPage checkoutPage = new CheckoutPage(driver);
 
-        for (WebElement priceElement: checkoutPage.productPrice
+        for (WebElement priceElement: checkoutPage.getProductPrice()
         ) {
             priceSum += Double.parseDouble(priceElement.getText().replace("$",""));
         }
@@ -102,8 +110,16 @@ public class TestEcommerce extends Base {
 
         System.out.println("5 --------------------------");
 
+        appiumDriverLocalService.stop();
 
 
+
+
+    }
+
+    @AfterClass
+    public void stop() {
+        appiumDriverLocalService.stop();
     }
 
         public static void login(AndroidDriver<AndroidElement> driver) throws InterruptedException {
@@ -116,8 +132,11 @@ public class TestEcommerce extends Base {
             formPage.getNamefield().sendKeys("Hello");
             driver.hideKeyboard();
             formPage.radioFemale.click();
-            formPage.countrySelect.click();
-            driver.findElementByAndroidUIAutomator("new UiScrollable(new UiSelector()).scrollIntoView(text(\"Argentina\"));").click();
+            formPage.getCountrySelect().click();
+
+            Utilities util = new Utilities(driver);
+
+            util.scrolling("Argentina");
 
             formPage.loginButton.click();
         }

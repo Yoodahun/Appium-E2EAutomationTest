@@ -22,4 +22,8 @@ public class CheckoutPage {
     public CheckoutPage(AndroidDriver<AndroidElement> driver) {
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
+
+    public List<WebElement> getProductPrice() {
+        return productPrice;
+    }
 }

@@ -30,7 +30,13 @@ public class FormPage {
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
-    public WebElement getNamefield() {
+    public WebElement getNamefield() { //getter
+        System.out.println("Trying to find the Name field");
         return namefield;
+    }
+
+    public WebElement getCountrySelect() {
+        System.out.println("Selecting the option from dropdown");
+        return countrySelect;
     }
 }
