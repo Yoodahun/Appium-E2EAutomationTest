@@ -13,16 +13,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class Base {
 
     protected AppiumDriverLocalService appiumDriverLocalService = null;
 
-    public static AndroidDriver<AndroidElement> initializeCapabilities(String app) {
+    public static AndroidDriver<AndroidElement> initializeCapabilities(String app) throws InterruptedException {
         // write your code here
         Properties properties = null;
             FileInputStream fis = null;
@@ -36,11 +34,14 @@ public class Base {
         }
 
 
+
+
         File file = new File(
                 "/Users/yoodahun/Documents/Github/Java/Appium -Mobile Automation Testing from Scratch/Library/"
                             + properties.getProperty(app));
 
         AndroidDriver<AndroidElement> driver = null;
+
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
@@ -49,6 +50,15 @@ public class Base {
         capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 10);
         capabilities.setCapability(MobileCapabilityType.APP,
                 file.getAbsolutePath());
+
+        ///Users/yoodahun/Library/Android/sdk/emulator
+        ///emulator -avd PracticeEmul
+
+        if(properties.getProperty("device").contains("Practice")) {
+            startEmulator();
+            Thread.sleep(5000);
+        }
+
 
         try {
             driver = new AndroidDriver<>(new URL("http://0.0.0.0:4723/wd/hub"), capabilities);
@@ -105,6 +115,23 @@ public class Base {
         }
 
         return isServerRunning;
+    }
+
+    public static void startEmulator() {
+
+        try {
+            List<String> cmdList = new ArrayList<String>();
+            // adding command and args to the list
+            cmdList.add("sh");
+            cmdList.add("src/test/resources/executeEmulator.sh");
+            ProcessBuilder pb = new ProcessBuilder(cmdList);
+            pb.start();
+
+
+        } catch (Exception e) {
+            e.getMessage();
+            e.printStackTrace();
+        }
     }
 
 
