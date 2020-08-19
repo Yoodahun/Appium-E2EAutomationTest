@@ -10,11 +10,28 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TestEcommerce extends Base {
+
+
+    @BeforeTest
+    public void killAllNodes() {
+        try {
+            Runtime.getRuntime().exec("killall node");
+
+            Thread.sleep(3000);
+
+
+        } catch (Exception e) {
+            e.getMessage();
+            e.printStackTrace();
+        }
+    }
 
 
     @Test
