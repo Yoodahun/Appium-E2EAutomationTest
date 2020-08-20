@@ -124,10 +124,12 @@ public class TestEcommerce extends Base {
         );
 
 
-
+        Assert.assertTrue(false);
         System.out.println("5 --------------------------");
 
         appiumDriverLocalService.stop();
+
+
 
 
 

@@ -6,6 +6,10 @@ import io.appium.java_client.android.AndroidElement;
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.io.File;
@@ -18,7 +22,9 @@ import java.util.concurrent.TimeUnit;
 
 public class Base {
 
+
     protected AppiumDriverLocalService appiumDriverLocalService = null;
+    protected static AndroidDriver<AndroidElement> driver = null;
 
     public static AndroidDriver<AndroidElement> initializeCapabilities(String app) throws InterruptedException {
         // write your code here
@@ -34,14 +40,9 @@ public class Base {
         }
 
 
-
-
         File file = new File(
                 "/Users/yoodahun/Documents/Github/Java/Appium -Mobile Automation Testing from Scratch/Library/"
                             + properties.getProperty(app));
-
-        AndroidDriver<AndroidElement> driver = null;
-
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
@@ -132,6 +133,21 @@ public class Base {
             e.getMessage();
             e.printStackTrace();
         }
+    }
+
+    public static void getScreenShot(String name) {
+
+        //screenshot을 찍어서 파일로 바꿈.
+        File screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.FILE);
+
+        try {
+            FileUtils.copyFile(screenshot, new File(System.getProperty("user.dir")+ "/"+ name + ".jpg"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getMessage();
+        }
+
+
     }
 
 
