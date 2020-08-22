@@ -5,7 +5,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.blog.tty4032</groupId>
-  <artifactId>Appium E2E Test Framework</artifactId>
+  <artifactId>Appium_E2E_Test_Framework</artifactId>
   <version>1.0-SNAPSHOT</version>
 
   <name>Appium E2E Test Framework</name>
@@ -17,6 +17,8 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
+
+
 
   <dependencies>
 
@@ -85,12 +87,16 @@
       <version>4.1.7</version>
     </dependency>
 
-
-
-
   </dependencies>
 
   <build>
+    <resources>
+      <resource>
+        <directory>src/test/resources</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
@@ -132,6 +138,19 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.0.0</version>
         </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.0.0-M5</version>
+          <configuration>
+            <suiteXmlFiles>
+              <suiteXmlFile>testng.xml</suiteXmlFile>
+            </suiteXmlFiles>
+          </configuration>
+        </plugin>
+
+
       </plugins>
     </pluginManagement>
   </build>
