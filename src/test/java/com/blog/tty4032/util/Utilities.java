@@ -2,6 +2,7 @@ package com.blog.tty4032.util;
 
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidElement;
+import org.testng.annotations.DataProvider;
 
 public class Utilities {
 
@@ -16,4 +17,6 @@ public class Utilities {
         ).click();
 
     }
+
+
 }
