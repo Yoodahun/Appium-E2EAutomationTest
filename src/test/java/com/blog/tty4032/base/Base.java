@@ -46,7 +46,11 @@ public class Base {
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
-        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,properties.getProperty("device"));
+//Read Property from properties file
+//        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,properties.getProperty("device"));
+
+//Read Property from maven command
+        capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,System.getProperty("deviceName"));
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,"uiautomator2");
         capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 10);
         capabilities.setCapability(MobileCapabilityType.APP,
@@ -72,6 +76,7 @@ public class Base {
 
     }
 
+    //Starting server
     public AppiumDriverLocalService startServer() {
 
         boolean flag = checkIfServerIsRunning(4723);
